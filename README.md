@@ -1,0 +1,1 @@
+# Cloud Init Template for Docker and AZ CLI Install on Azure VMSS
