@@ -22,8 +22,14 @@ runcmd:
     Signed-by: /etc/apt/keyrings/microsoft.gpg" | sudo tee /etc/apt/sources.list.d/azure-cli.sources
   - sudo apt-get -o DPkg::Lock::Timeout=-1 update -y
   - sudo apt-get -o DPkg::Lock::Timeout=-1 install azure-cli -y
-
-
+  - az login --identity 
+  - az storage blob download --account-name dockercomposeshare --container-name compose --name docker-compose.yml --file /home/azureuser/docker-compose.yml --auth-mode login
+  - az keyvault secret download --name composeenv --vault-name  yupanadevenvsecret --file /home/azureuser/.env
+  - az acr login  --name yupanahealth
+  - docker compose -f /home/azureuser/docker-compose.yml pull
+  - docker compose -f /home/azureuser/docker-compose.yml --env-file /home/azureuser/.env up -d
+  - chown -c azureuser /home/azureuser/.env
+  - chown -c azureuser /home/azureuser/docker-compose.yml
 
 
 # Enable ipv4 forwarding, required on CIS hardened machines
